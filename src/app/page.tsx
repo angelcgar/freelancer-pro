@@ -1,33 +1,50 @@
-import { redirect } from 'next/navigation'
-import { currentUser } from '@clerk/nextjs/server'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import Link from 'next/link'
+import { SignedIn, SignedOut, SignInButton, SignUpButton } from '@clerk/nextjs';
+import Link from 'next/link';
+import { Navbar } from '@/components/layout/navbar';
+import { Button } from '@/components/ui/button';
+import {
+	Card,
+	CardContent,
+	CardDescription,
+	CardHeader,
+	CardTitle,
+} from '@/components/ui/card';
 
 export default async function Home() {
-	const user = await currentUser()
-
-	if (user) {
-		redirect('/dashboard')
-	}
-
 	return (
 		<div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
+			<SignedIn>
+				<Navbar />
+			</SignedIn>
+
 			<div className="container mx-auto px-4 py-16">
 				<div className="text-center mb-16">
 					<h1 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-6xl mb-6">
 						FreelancePro
 					</h1>
 					<p className="text-xl text-slate-600 max-w-2xl mx-auto mb-8">
-						Comprehensive SaaS platform to help freelancers manage projects, clients, contracts, invoices, and business operations efficiently.
+						Comprehensive SaaS platform to help freelancers manage projects,
+						clients, contracts, invoices, and business operations efficiently.
 					</p>
 					<div className="flex gap-4 justify-center">
-						<Button asChild size="lg">
-							<Link href="/sign-up">Get Started</Link>
-						</Button>
-						<Button variant="outline" size="lg" asChild>
-							<Link href="/sign-in">Sign In</Link>
-						</Button>
+						<SignedOut>
+							<SignUpButton>
+								<Button size="lg">Get Started</Button>
+							</SignUpButton>
+
+							<SignInButton>
+								<Button variant="outline" size="lg">
+									Sign In
+								</Button>
+							</SignInButton>
+						</SignedOut>
+
+						<SignedIn>
+							{/* Mostrar cuando el usuario YA está logueado */}
+							<Button asChild size="lg">
+								<Link href="/dashboard">Go to Dashboard</Link>
+							</Button>
+						</SignedIn>
 					</div>
 				</div>
 
