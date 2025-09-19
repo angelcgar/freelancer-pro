@@ -28,5 +28,5 @@ export const env = {
 	RESEND_API_KEY: get('RESEND_API_KEY').required().asString(),
 
 	// App
-	NEXT_PUBLIC_APP_URL: get('NEXT_PUBLIC_APP_URL').required().asString(),
+	NEXT_PUBLIC_APP_URL: get('NEXT_PUBLIC_APP_URL').asString(),
 };
