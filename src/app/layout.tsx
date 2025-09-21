@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
-import { ClerkProviderWrapper } from '@/providers/clerk-provider';
+// import { ClerkProviderWrapper } from '@/providers/clerk-provider';
 import { ReactQueryProvider } from '@/providers/react-query-provider';
 
 const geistSans = Geist({
@@ -26,14 +26,12 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<ClerkProviderWrapper>
-			<html lang="en">
-				<body
-					className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-				>
-					<ReactQueryProvider>{children}</ReactQueryProvider>
-				</body>
-			</html>
-		</ClerkProviderWrapper>
+		<html lang="en">
+			<body
+				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+			>
+				<ReactQueryProvider>{children}</ReactQueryProvider>
+			</body>
+		</html>
 	);
 }

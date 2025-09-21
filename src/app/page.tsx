@@ -1,6 +1,4 @@
-import { SignedIn, SignedOut, SignInButton, SignUpButton } from '@clerk/nextjs';
 import Link from 'next/link';
-import { Navbar } from '@/components/layout/navbar';
 import { Button } from '@/components/ui/button';
 import {
 	Card,
@@ -27,24 +25,7 @@ export default async function Home() {
 						clients, contracts, invoices, and business operations efficiently.
 					</p>
 					<div className="flex gap-4 justify-center">
-						<SignedOut>
-							<SignUpButton>
-								<Button size="lg">Get Started</Button>
-							</SignUpButton>
-
-							<SignInButton>
-								<Button variant="outline" size="lg">
-									Sign In
-								</Button>
-							</SignInButton>
-						</SignedOut>
-
-						<SignedIn>
-							{/* Mostrar cuando el usuario YA está logueado */}
-							<Button asChild size="lg">
-								<Link href="/dashboard">Go to Dashboard</Link>
-							</Button>
-						</SignedIn>
+					
 					</div>
 				</div>
 
