@@ -1,6 +1,4 @@
-'use client';
-
-
+import LogoutButton from '@/components/auth/LogoutButton';
 
 export function Navbar() {
 	return (
@@ -14,7 +12,7 @@ export function Navbar() {
 					</a>
 				</div>
 				<nav className="flex items-center">
-					
+					<LogoutButton />
 				</nav>
 			</div>
 		</header>
