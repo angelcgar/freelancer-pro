@@ -11,10 +11,6 @@ import {
 export default async function Home() {
 	return (
 		<div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
-			<SignedIn>
-				<Navbar />
-			</SignedIn>
-
 			<div className="container mx-auto px-4 py-16">
 				<div className="text-center mb-16">
 					<h1 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-6xl mb-6">
@@ -25,7 +21,12 @@ export default async function Home() {
 						clients, contracts, invoices, and business operations efficiently.
 					</p>
 					<div className="flex gap-4 justify-center">
-					
+						<Link href="/register">
+							<Button size="lg">Get Started</Button>
+						</Link>
+						<Link href="/login">
+							<Button size="lg">login</Button>
+						</Link>
 					</div>
 				</div>
 
