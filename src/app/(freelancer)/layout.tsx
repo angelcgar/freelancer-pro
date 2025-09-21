@@ -1,8 +1,13 @@
 import type { ReactNode } from 'react';
+
 import { Navbar } from '@/components/layout/navbar';
 import { Sidebar } from '@/components/layout/sidebar';
 
-export default function DashboardLayout({ children }: { children: ReactNode }) {
+export default async function DashboardLayout({
+	children,
+}: {
+	children: ReactNode;
+}) {
 	return (
 		<div className="flex min-h-screen flex-col">
 			<Navbar />
