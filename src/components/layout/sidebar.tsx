@@ -3,13 +3,20 @@
 import {
 	BarChart3,
 	Clock,
+	CreditCard,
 	FileText,
 	FolderOpen,
+	Home,
 	LayoutDashboard,
 	Receipt,
 	Settings,
 	User,
 	Users,
+	BookOpen,
+	FileCheck,
+	Shield,
+	MessageSquare,
+	ArrowLeft,
 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -49,6 +56,16 @@ const navigation = [
 		icon: Clock,
 	},
 	{
+		name: 'Billing',
+		href: '/dashboard/billing',
+		icon: CreditCard,
+	},
+	{
+		name: 'Team',
+		href: '/dashboard/team',
+		icon: Users,
+	},
+	{
 		name: 'Reports',
 		href: '/dashboard/reports',
 		icon: BarChart3,
@@ -68,58 +85,134 @@ const secondaryNavigation = [
 	},
 ];
 
+const publicNavigation = [
+	{
+		name: 'Home',
+		href: '/',
+		icon: Home,
+	},
+	{
+		name: 'About',
+		href: '/about',
+		icon: Users,
+	},
+	{
+		name: 'Pricing',
+		href: '/pricing',
+		icon: CreditCard,
+	},
+	{
+		name: 'Contact',
+		href: '/contact',
+		icon: MessageSquare,
+	},
+	{
+		name: 'Documentation',
+		href: '/docs',
+		icon: BookOpen,
+	},
+	{
+		name: 'Terms',
+		href: '/terms',
+		icon: FileCheck,
+	},
+	{
+		name: 'Privacy',
+		href: '/privacy',
+		icon: Shield,
+	},
+];
+
 export function Sidebar() {
 	const pathname = usePathname();
 
+	const renderNavItem = (item: { name: string; href: string; icon: any }) => {
+		const isActive = pathname === item.href;
+		const Icon = item.icon;
+
+		return (
+			<Button
+				key={item.name}
+				variant={isActive ? 'secondary' : 'ghost'}
+				className={cn(
+					'w-full justify-start',
+					isActive && 'bg-muted font-medium text-muted-foreground',
+				)}
+				asChild
+			>
+				<Link href={item.href} className="flex items-center">
+					<Icon className="mr-3 h-4 w-4" />
+					{item.name}
+				</Link>
+			</Button>
+		);
+	};
+
+	const renderPublicNavItem = (item: {
+		name: string;
+		href: string;
+		icon: any;
+	}) => {
+		const isActive = pathname === item.href;
+		const Icon = item.icon;
+
+		return (
+			<Link
+				key={item.href}
+				href={item.href}
+				className={cn(
+					'flex items-center rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground',
+					isActive ? 'bg-accent' : 'text-muted-foreground',
+				)}
+			>
+				<Icon className="mr-3 h-4 w-4" />
+				<span>{item.name}</span>
+			</Link>
+		);
+	};
+
 	return (
-		<div className="flex h-full w-full flex-col">
-			<div className="flex h-14 items-center border-b px-4">
+		<div className="h-screen max-h-svh flex flex-col">
+			{/* Header */}
+			<div className="flex h-14 items-center justify-between border-b px-4">
 				<Link className="flex items-center space-x-2" href="/dashboard">
 					<span className="font-bold">FreelancePro</span>
 				</Link>
+				{/* todo: implementar sidebar toggle y diseño responsivo */}
+				<ArrowLeft />
 			</div>
-			<div className="flex-1 overflow-auto py-2">
-				<nav className="grid items-start px-2 text-sm font-medium">
-					{navigation.map((item) => {
-						const isActive = pathname === item.href;
-						return (
-							<Button
-								key={item.name}
-								variant={isActive ? 'secondary' : 'ghost'}
-								className={cn(
-									'w-full justify-start',
-									isActive && 'bg-muted font-medium text-muted-foreground',
-								)}
-								asChild
-							>
-								<Link href={item.href}>
-									<item.icon className="mr-2 h-4 w-4" />
-									{item.name}
-								</Link>
-							</Button>
-						);
-					})}
-					<Separator className="my-2" />
-					{secondaryNavigation.map((item) => {
-						const isActive = pathname === item.href;
-						return (
-							<Button
-								key={item.name}
-								variant={isActive ? 'secondary' : 'ghost'}
-								className={cn(
-									'w-full justify-start',
-									isActive && 'bg-muted font-medium text-muted-foreground',
-								)}
-								asChild
-							>
-								<Link href={item.href}>
-									<item.icon className="mr-2 h-4 w-4" />
-									{item.name}
-								</Link>
-							</Button>
-						);
-					})}
-				</nav>
+
+			{/* Main Content */}
+			<div className="flex-1 overflow-y-auto py-4 px-2">
+				{/* Workspace Navigation */}
+				<div className="mb-8">
+					<h3 className="mb-2 px-2 text-sm font-medium text-muted-foreground">
+						Workspace
+					</h3>
+					<nav className="space-y-1">{navigation.map(renderNavItem)}</nav>
+				</div>
+
+				{/* Public Navigation */}
+				<div className="mb-4">
+					<h3 className="mb-2 px-2 text-sm font-medium text-muted-foreground">
+						Public Pages
+					</h3>
+					<nav className="space-y-1">
+						{publicNavigation.map(renderPublicNavItem)}
+					</nav>
+				</div>
+
+				<Separator />
+
+				{/* Footer */}
+				<div className="p-4">
+					<h3 className="mb-2 px-2 text-sm font-medium text-muted-foreground">
+						Settings
+					</h3>
+					<nav className="space-y-1">
+						{secondaryNavigation.map(renderNavItem)}
+					</nav>
+				</div>
 			</div>
 		</div>
 	);
