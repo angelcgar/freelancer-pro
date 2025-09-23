@@ -55,7 +55,7 @@ export default function RegisterPage() {
 
 		console.log('authData', authData);
 		setLoading(false);
-		router.push('/dashboard');
+		router.push('/verify-email');
 	};
 
 	return (
