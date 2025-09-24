@@ -1,11 +1,16 @@
 'use client';
 
-import { Plus, Users } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { useEffect, useState } from 'react';
-import { getClientsAction } from './actions';
-import type { ClientUser } from '@/types';
+import { useQuery } from '@tanstack/react-query';
+
+import { Users } from 'lucide-react';
+
+import { AddClientDialog } from '@/components/client/AddClientDialog';
 import { ClientsTable } from './ClientsTable';
+
+import type { ClientUser } from '@/types';
+
+import { getClientsAction } from './actions';
+
 import {
 	Card,
 	CardContent,
@@ -14,17 +19,12 @@ import {
 } from '@/components/ui/card';
 
 export default function ClientsPage() {
-	const [clients, setClients] = useState<ClientUser[]>([]);
+	const { data: clients = [], isLoading } = useQuery<ClientUser[]>({
+		queryKey: ['clients'],
+		queryFn: getClientsAction,
+	});
 
-	const temclients = [];
-
-	useEffect(() => {
-		const load = async () => {
-			const data = await getClientsAction();
-			setClients(data);
-		};
-		load();
-	}, []);
+	if (isLoading) return <p>Loading...</p>;
 
 	return (
 		<div className="space-y-6">
@@ -35,10 +35,7 @@ export default function ClientsPage() {
 						Manage your client relationships and contact information.
 					</p>
 				</div>
-				<Button>
-					<Plus className="mr-2 h-4 w-4" />
-					Add Client
-				</Button>
+				<AddClientDialog />
 			</div>
 
 			{/* Clients Grid */}
@@ -53,10 +50,7 @@ export default function ClientsPage() {
 								Add your first client to start building your professional
 								network and managing projects.
 							</CardDescription>
-							<Button>
-								<Plus className="mr-2 h-4 w-4" />
-								Add Client
-							</Button>
+							<AddClientDialog variant="outline" />
 						</CardContent>
 					</Card>
 				</div>

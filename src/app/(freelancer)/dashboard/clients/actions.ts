@@ -14,10 +14,19 @@ export async function createClientAction(formData: FormData) {
 
 	const supabase = await createClient();
 
+	const {
+		data: { user },
+		error: errorUser,
+	} = await supabase.auth.getUser();
+
+	const currentUserId = user?.id;
+	if (!currentUserId) throw new Error('User not found');
+
 	const { data, error } = await supabase
 		.from('clients')
 		.insert([
 			{
+				user_id: currentUserId,
 				name,
 				email,
 				phone,
