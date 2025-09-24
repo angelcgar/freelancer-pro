@@ -11,6 +11,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
+import LogoutButton from '@/components/auth/LogoutButton';
 
 export default function SettingsPage() {
 	// TODO: Use React Hook Form
@@ -25,6 +26,7 @@ export default function SettingsPage() {
 					<p className="text-muted-foreground">
 						Manage your account settings and preferences.
 					</p>
+					<LogoutButton />
 				</div>
 			</div>
 
