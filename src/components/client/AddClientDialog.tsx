@@ -4,7 +4,7 @@ import { useState, type ComponentProps } from 'react';
 
 import { useRouter } from 'next/navigation';
 
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+// import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { Plus } from 'lucide-react';
 
@@ -33,16 +33,16 @@ export function AddClientDialog({ variant }: AddClientDialogProps) {
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const router = useRouter();
 
-	const queryClient = useQueryClient();
+	// const queryClient = useQueryClient();
 
-	const mutation = useMutation({
-		mutationFn: async (formData: FormData) => {
-			return await createClientAction(formData);
-		},
-		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ['clients'] });
-		},
-	});
+	// const mutation = useMutation({
+	// 	mutationFn: async (formData: FormData) => {
+	// 		return await createClientAction(formData);
+	// 	},
+	// 	onSuccess: () => {
+	// 		queryClient.invalidateQueries({ queryKey: ['clients'] });
+	// 	},
+	// });
 
 	const handleSubmit = async (values: ClientFormValues) => {
 		try {

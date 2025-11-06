@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Plus } from 'lucide-react';
 import { toast } from 'sonner';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+// import { useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { ProjectForm } from './ProjectForm';
 import { createProjectAction } from '@/app/(freelancer)/dashboard/projects/actions';
@@ -18,7 +18,7 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from '@/components/ui/dialog';
-import { createClient } from '@/lib/supabase/client';
+// import { createClient } from '@/lib/supabase/client';
 
 interface AddProjectDialogProps {
 	variant?:
@@ -36,23 +36,26 @@ export function AddProjectDialog({
 	const [open, setOpen] = useState(false);
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const router = useRouter();
-	const queryClient = useQueryClient();
+	// const queryClient = useQueryClient();
 
 	// Fetch clients for the dropdown
-	const { data: clients = [] } = useQuery({
-		queryKey: ['clients'],
-		queryFn: async () => {
-			const supabase = createClient;
-			const { data, error } = await supabase
-				.from('clients')
-				.select('id, name')
-				.order('name', { ascending: true });
+	// const { data: clients = [] } = useQuery({
+	// 	queryKey: ['clients'],
+	// 	queryFn: async () => {
+	// 		const supabase = createClient;
+	// 		const { data, error } = await supabase
+	// 			.from('clients')
+	// 			.select('id, name')
+	// 			.order('name', { ascending: true });
 
-			if (error) throw error;
-			console.log('Peticion de clientes', data);
-			return data || [];
-		},
-	});
+	// 		if (error) throw error;
+	// 		console.log('Peticion de clientes', data);
+	// 		return data || [];
+	// 	},
+	// });
+
+	// Mock data para la plantilla
+	const clients: { id: string; name: string }[] = [];
 
 	const handleSubmit = async (values: ProjectFormValues) => {
 		try {
@@ -72,7 +75,7 @@ export function AddProjectDialog({
 			setOpen(false);
 
 			// Invalidate projects query to refetch the list
-			await queryClient.invalidateQueries({ queryKey: ['projects'] });
+			// await queryClient.invalidateQueries({ queryKey: ['projects'] });
 			router.refresh();
 		} catch (error) {
 			console.error('Error creating project:', error);

@@ -1,6 +1,6 @@
 'use client';
 
-import { useQuery } from '@tanstack/react-query';
+// import { useQuery } from '@tanstack/react-query';
 
 import { Users } from 'lucide-react';
 
@@ -9,7 +9,7 @@ import { ClientsTable } from './ClientsTable';
 
 import type { ClientUser } from '@/types';
 
-import { getClientsAction } from './actions';
+// import { getClientsAction } from './actions';
 
 import {
 	Card,
@@ -19,10 +19,14 @@ import {
 } from '@/components/ui/card';
 
 export default function ClientsPage() {
-	const { data: clients = [], isLoading } = useQuery<ClientUser[]>({
-		queryKey: ['clients'],
-		queryFn: getClientsAction,
-	});
+	// const { data: clients = [], isLoading } = useQuery<ClientUser[]>({
+	// 	queryKey: ['clients'],
+	// 	queryFn: getClientsAction,
+	// });
+
+	// Mock data para la plantilla
+	const clients: ClientUser[] = [];
+	const isLoading = false;
 
 	if (isLoading) return <p>Loading...</p>;
 

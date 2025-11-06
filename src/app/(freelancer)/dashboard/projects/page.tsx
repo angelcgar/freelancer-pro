@@ -9,16 +9,20 @@ import {
 	CardTitle,
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { useQuery } from '@tanstack/react-query';
-import { getProjectsAction } from './actions';
+// import { useQuery } from '@tanstack/react-query';
+// import { getProjectsAction } from './actions';
 import { ProjectsTable } from './ProjectsTable';
 import type { ProjectUser } from '@/types';
 
 export default function ProjectsPage() {
-	const { data: projects = [], isLoading } = useQuery<ProjectUser[]>({
-		queryKey: ['projects'],
-		queryFn: getProjectsAction,
-	});
+	// const { data: projects = [], isLoading } = useQuery<ProjectUser[]>({
+	// 	queryKey: ['projects'],
+	// 	queryFn: getProjectsAction,
+	// });
+
+	// Mock data para la plantilla
+	const projects: ProjectUser[] = [];
+	const isLoading = false;
 
 	if (isLoading) return <p>Loading...</p>;
 
