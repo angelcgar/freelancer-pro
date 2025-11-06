@@ -1,52 +1,56 @@
-'use client';
+// 'use client';
 
-import { useEffect, useState } from 'react';
+// import { useEffect, useState } from 'react';
 
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+// import Link from 'next/link';
+// import { useRouter } from 'next/navigation';
 
-import { useForm } from 'react-hook-form';
+// import { useForm } from 'react-hook-form';
 
-import { createClient } from '@/lib/supabase/client';
+// import { createClient } from '@/lib/supabase/client';
 
-type LoginForm = {
-	email: string;
-	password: string;
-};
+// type LoginForm = {
+// 	email: string;
+// 	password: string;
+// };
 
 export default function LoginPage() {
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-	} = useForm<LoginForm>();
-	const router = useRouter();
-	const [error, setError] = useState<string | null>(null);
+	// const {
+	// 	register,
+	// 	handleSubmit,
+	// 	formState: { errors },
+	// } = useForm<LoginForm>();
+	// const router = useRouter();
+	// const [error, setError] = useState<string | null>(null);
 
-	useEffect(() => {
-		createClient.auth.getUser().then(({ data, error: _ }) => {
-			if (data.user) {
-				console.log('Usuario Logeado');
-				router.push('/dashboard');
-			}
-		});
-	}, [router]);
+	// useEffect(() => {
+	// 	createClient.auth.getUser().then(({ data, error: _ }) => {
+	// 		if (data.user) {
+	// 			console.log('Usuario Logeado');
+	// 			router.push('/dashboard');
+	// 		}
+	// 	});
+	// }, [router]);
 
-	const onSubmit = async (data: LoginForm) => {
-		const { error } = await createClient.auth.signInWithPassword({
-			email: data.email,
-			password: data.password,
-		});
+	// const onSubmit = async (data: LoginForm) => {
+	// 	const { error } = await createClient.auth.signInWithPassword({
+	// 		email: data.email,
+	// 		password: data.password,
+	// 	});
 
-		if (error) {
-			setError(error.message);
-		} else {
-			router.push('/dashboard');
-		}
-	};
+	// 	if (error) {
+	// 		setError(error.message);
+	// 	} else {
+	// 		router.push('/dashboard');
+	// 	}
+	// };
 
 	return (
 		<div className="flex flex-col items-center justify-center min-h-screen">
+			<p className="text-lg text-gray-600">
+				Este componente ha sido comentado - Página de Login
+			</p>
+			{/*
 			<form
 				onSubmit={handleSubmit(onSubmit)}
 				className="flex flex-col gap-4 w-80"
@@ -77,6 +81,7 @@ export default function LoginPage() {
 					Login
 				</button>
 			</form>
+			*/}
 		</div>
 	);
 }

@@ -1,29 +1,23 @@
-'use client';
-
-import { useState, useId } from 'react';
-import Link from 'next/link';
-import { ArrowLeft, Mail, Lock, Eye, EyeOff } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardHeader,
-	CardTitle,
-} from '@/components/ui/card';
+export default function ResetPasswordPage() {
+	return (
+		<main className="flex min-h-screen items-center justify-center px-4">
+			<div className="max-w-md text-center space-y-4">
+				<p className="text-lg text-gray-600">Este componente ha sido comentado - Reset Password</p>
+			</div>
+		</main>
+	);
+}
 
 export default function ResetPasswordPage() {
 	const [step, setStep] = useState<'request' | 'reset'>('request');
 	const [isLoading, setIsLoading] = useState(false);
 	const [showPassword, setShowPassword] = useState(false);
 	const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-	
+
 	const emailId = useId();
 	const passwordId = useId();
 	const confirmPasswordId = useId();
-	
+
 	const [formData, setFormData] = useState({
 		email: '',
 		password: '',
@@ -34,13 +28,13 @@ export default function ResetPasswordPage() {
 	const handleRequestReset = async (e: React.FormEvent) => {
 		e.preventDefault();
 		setIsLoading(true);
-		
+
 		// TODO: Implement password reset request logic
 		// This would typically send a request to your backend
-		
+
 		// Simulate API call
 		await new Promise(resolve => setTimeout(resolve, 2000));
-		
+
 		setIsLoading(false);
 		// For demo purposes, move to reset step
 		// In real implementation, this would show a success message
@@ -50,13 +44,13 @@ export default function ResetPasswordPage() {
 	const handleResetPassword = async (e: React.FormEvent) => {
 		e.preventDefault();
 		setIsLoading(true);
-		
+
 		// TODO: Implement password reset logic
 		// This would typically verify the token and update the password
-		
+
 		// Simulate API call
 		await new Promise(resolve => setTimeout(resolve, 2000));
-		
+
 		setIsLoading(false);
 		// In real implementation, redirect to login with success message
 	};
@@ -67,8 +61,8 @@ export default function ResetPasswordPage() {
 				<div className="w-full max-w-md">
 					{/* Back to Login */}
 					<div className="mb-8">
-						<Link 
-							href="/login" 
+						<Link
+							href="/login"
 							className="inline-flex items-center text-sm text-gray-600 hover:text-gray-900 transition-colors"
 						>
 							<ArrowLeft className="w-4 h-4 mr-2" />
@@ -102,9 +96,9 @@ export default function ResetPasswordPage() {
 									/>
 								</div>
 
-								<Button 
-									type="submit" 
-									className="w-full" 
+								<Button
+									type="submit"
+									className="w-full"
 									disabled={isLoading}
 								>
 									{isLoading ? (
@@ -149,8 +143,8 @@ export default function ResetPasswordPage() {
 			<div className="w-full max-w-md">
 				{/* Back to Login */}
 				<div className="mb-8">
-					<Link 
-						href="/login" 
+					<Link
+						href="/login"
 						className="inline-flex items-center text-sm text-gray-600 hover:text-gray-900 transition-colors"
 					>
 						<ArrowLeft className="w-4 h-4 mr-2" />
@@ -235,9 +229,9 @@ export default function ResetPasswordPage() {
 								</ul>
 							</div>
 
-							<Button 
-								type="submit" 
-								className="w-full" 
+							<Button
+								type="submit"
+								className="w-full"
 								disabled={isLoading}
 							>
 								{isLoading ? (

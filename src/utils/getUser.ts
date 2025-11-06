@@ -1,21 +1,25 @@
-import type { AuthUser } from '@supabase/supabase-js';
+// import type { AuthUser } from '@supabase/supabase-js';
 
-import { createClient } from '@/lib/supabase/client';
+// import { createClient } from '@/lib/supabase/client';
 
 /**
  * Get user with auth in supabase.
  * Use on the client side.
  * @returns AuthUser | null
  */
-export async function getUser(): Promise<AuthUser | null> {
-	const supabase = createClient;
+export async function getUser(): Promise<any> {
+	// Antes era: Promise<AuthUser | null>
+	// const supabase = createClient;
 
-	const { data, error } = await supabase.auth.getUser();
+	// const { data, error } = await supabase.auth.getUser();
 
-	if (error) {
-		console.error('Error fetching user:', error.message);
-		return null;
-	}
+	// if (error) {
+	// 	console.error('Error fetching user:', error.message);
+	// 	return null;
+	// }
 
-	return data.user;
+	// return data.user;
+
+	// Plantilla - sin auth
+	return null;
 }

@@ -21,12 +21,12 @@ export default async function Home() {
 						clients, contracts, invoices, and business operations efficiently.
 					</p>
 					<div className="flex gap-4 justify-center">
-						<Link href="/register">
+						<Link href="/dashboard" className="cursor-pointer">
 							<Button size="lg">Get Started</Button>
 						</Link>
-						<Link href="/login">
+						{/* <Link href="/login">
 							<Button size="lg">login</Button>
-						</Link>
+						</Link> */}
 					</div>
 				</div>
 

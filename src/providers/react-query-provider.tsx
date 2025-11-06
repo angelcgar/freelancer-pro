@@ -23,7 +23,7 @@ export function ReactQueryProvider({
 	return (
 		// <QueryClientProvider client={queryClient}>
 		<div>
-			<p>Este componente ha sido comentado</p>
+			{/* <p>Este componente ha sido comentado</p> */}
 			{children}
 		</div>
 		// </QueryClientProvider>

@@ -1,15 +1,20 @@
 'use client';
 
-import { createClient } from '@/lib/supabase/client';
-import { useRouter } from 'next/navigation';
+// import { createClient } from '@/lib/supabase/client';
+// import { useRouter } from 'next/navigation';
 
 export default function LogoutButton() {
-	const supabase = createClient;
-	const router = useRouter();
+	// const supabase = createClient;
+	// const router = useRouter();
+
+	// const handleLogout = () => {
+	// 	supabase.auth.signOut();
+	// 	router.push('/');
+	// };
 
 	const handleLogout = () => {
-		supabase.auth.signOut();
-		router.push('/');
+		// Plantilla - sin funcionalidad
+		console.log('Plantilla: Logout clickeado');
 	};
 
 	return (
