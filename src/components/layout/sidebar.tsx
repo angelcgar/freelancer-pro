@@ -16,13 +16,13 @@ import {
 	FileCheck,
 	Shield,
 	MessageSquare,
-	ArrowLeft,
 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
+import { useSidebar } from '@/providers/sidebar-provider';
 
 const navigation = [
 	{
@@ -125,6 +125,7 @@ const publicNavigation = [
 
 export function Sidebar() {
 	const pathname = usePathname();
+	const { isOpen } = useSidebar();
 
 	const renderNavItem = (item: { name: string; href: string; icon: any }) => {
 		const isActive = pathname === item.href;
@@ -172,14 +173,17 @@ export function Sidebar() {
 	};
 
 	return (
-		<div className="h-screen max-h-svh flex flex-col">
+		<div
+			className={cn(
+				'h-screen max-h-svh flex flex-col sidebar-transition w-64 md:w-64',
+				!isOpen && 'w-0 overflow-hidden md:w-0',
+			)}
+		>
 			{/* Header */}
 			<div className="flex h-14 items-center justify-between border-b px-4">
 				<Link className="flex items-center space-x-2" href="/dashboard">
-					<span className="font-bold">FreelancePro</span>
+					<span className="font-bold whitespace-nowrap">FreelancePro</span>
 				</Link>
-				{/* todo: implementar sidebar toggle y diseño responsivo */}
-				<ArrowLeft />
 			</div>
 
 			{/* Main Content */}

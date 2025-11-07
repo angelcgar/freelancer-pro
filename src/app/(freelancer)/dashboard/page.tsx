@@ -20,7 +20,7 @@ export default function DashboardPage() {
 						Welcome back! Here's an overview of your freelance business.
 					</p>
 				</div>
-				<Button>
+				<Button className="cursor-pointer">
 					<Plus className="mr-2 h-4 w-4" />
 					Quick Action
 				</Button>

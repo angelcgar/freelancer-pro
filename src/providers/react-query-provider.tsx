@@ -2,6 +2,7 @@
 
 // import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 // import { useState } from 'react'
+import { ThemeProvider } from './theme-provider';
 
 export function ReactQueryProvider({
 	children,
@@ -22,10 +23,7 @@ export function ReactQueryProvider({
 
 	return (
 		// <QueryClientProvider client={queryClient}>
-		<div>
-			{/* <p>Este componente ha sido comentado</p> */}
-			{children}
-		</div>
+		<ThemeProvider>{children}</ThemeProvider>
 		// </QueryClientProvider>
 	);
 }
