@@ -1,3 +1,5 @@
+'use client';
+
 import type { ReactNode } from 'react';
 
 import { Sidebar } from '@/components/layout/sidebar';
@@ -47,11 +49,7 @@ function DashboardLayoutContent({ children }: { children: ReactNode }) {
 	);
 }
 
-export default async function DashboardLayout({
-	children,
-}: {
-	children: ReactNode;
-}) {
+export default function DashboardLayout({ children }: { children: ReactNode }) {
 	return (
 		<SidebarProvider>
 			<DashboardLayoutContent>{children}</DashboardLayoutContent>
