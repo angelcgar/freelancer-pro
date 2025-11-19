@@ -1,7 +1,7 @@
 'use client';
 
 import { FolderOpen, Search } from 'lucide-react';
-import { AddProjectDialog } from '@/components/projects/AddProjectDialog';
+
 import {
 	Card,
 	CardContent,
@@ -11,6 +11,9 @@ import {
 import { Button } from '@/components/ui/button';
 // import { useQuery } from '@tanstack/react-query';
 // import { getProjectsAction } from './actions';
+
+import { AddProjectDialog } from '@/components/projects/AddProjectDialog';
+
 import { ProjectsTable } from './ProjectsTable';
 import type { ProjectUser } from '@/types';
 
