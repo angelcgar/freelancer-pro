@@ -1,6 +1,6 @@
 'use client';
 
-import React, {
+import {
 	createContext,
 	useContext,
 	useState,
@@ -19,18 +19,26 @@ interface SidebarContextType {
 const SidebarContext = createContext<SidebarContextType | undefined>(undefined);
 
 export function SidebarProvider({ children }: { children: ReactNode }) {
-	const [isOpen, setIsOpen] = useState(false); // Cerrado por defecto en móvil
+	const [isOpen, setIsOpen] = useState(true); // Default para SSR
 	const [isMobile, setIsMobile] = useState(false);
+	const [mounted, setMounted] = useState(false);
+
+	// Marcar como montado
+	useEffect(() => {
+		setMounted(true);
+	}, []);
 
 	// Detect mobile screen size
 	useEffect(() => {
+		if (!mounted) return;
+
 		const checkMobile = () => {
 			const mobile = window.innerWidth < 768; // md breakpoint
 			setIsMobile(mobile);
 			// En desktop, abrir por defecto; en móvil, cerrar por defecto
-			if (!mobile && !isOpen) {
+			if (!mobile) {
 				setIsOpen(true);
-			} else if (mobile && isOpen) {
+			} else {
 				setIsOpen(false);
 			}
 		};
@@ -38,7 +46,7 @@ export function SidebarProvider({ children }: { children: ReactNode }) {
 		checkMobile();
 		window.addEventListener('resize', checkMobile);
 		return () => window.removeEventListener('resize', checkMobile);
-	}, [isOpen]);
+	}, [mounted]);
 
 	const toggle = () => setIsOpen(!isOpen);
 	const open = () => setIsOpen(true);

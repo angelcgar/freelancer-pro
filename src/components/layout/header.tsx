@@ -4,17 +4,20 @@ import { Menu, Sun, Moon, Bell, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useSidebar } from '@/providers/sidebar-provider';
 import { useTheme } from 'next-themes';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export function Header() {
 	const { toggle } = useSidebar();
 	const { theme, setTheme } = useTheme();
-	const [isDarkMode, setIsDarkMode] = useState(theme === 'dark');
+	const [mounted, setMounted] = useState(false);
+
+	// useEffect only runs on the client, so now we can safely show the UI
+	useEffect(() => {
+		setMounted(true);
+	}, []);
 
 	const toggleTheme = () => {
-		const newTheme = theme === 'dark' ? 'light' : 'dark';
-		setTheme(newTheme);
-		setIsDarkMode(newTheme === 'dark');
+		setTheme(theme === 'dark' ? 'light' : 'dark');
 	};
 
 	return (
@@ -40,10 +43,14 @@ export function Header() {
 					className="hover:bg-accent"
 					aria-label="Toggle theme"
 				>
-					{isDarkMode ? (
-						<Sun className="h-5 w-5" />
+					{mounted ? (
+						theme === 'dark' ? (
+							<Sun className="h-5 w-5" />
+						) : (
+							<Moon className="h-5 w-5" />
+						)
 					) : (
-						<Moon className="h-5 w-5" />
+						<div className="h-5 w-5" /> // Placeholder para evitar hydration mismatch
 					)}
 				</Button>
 
