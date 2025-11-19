@@ -35,6 +35,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select';
+import { mockCategories } from '@/mocks/categories';
 
 interface ProjectFormProps {
 	onSubmit: (values: ProjectFormValues) => void;
@@ -248,12 +249,23 @@ export function ProjectForm({
 						render={({ field }) => (
 							<FormItem>
 								<FormLabel>Categoría</FormLabel>
-								<FormControl>
-									<Input
-										placeholder="Ej: Desarrollo web, Diseño, etc."
-										{...field}
-									/>
-								</FormControl>
+								<Select
+									onValueChange={field.onChange}
+									defaultValue={field.value}
+								>
+									<FormControl>
+										<SelectTrigger>
+											<SelectValue placeholder="Selecciona una categoría" />
+										</SelectTrigger>
+									</FormControl>
+									<SelectContent>
+										{mockCategories.map((category) => (
+											<SelectItem key={category.id} value={category.name}>
+												{category.name}
+											</SelectItem>
+										))}
+									</SelectContent>
+								</Select>
 								<FormMessage />
 							</FormItem>
 						)}

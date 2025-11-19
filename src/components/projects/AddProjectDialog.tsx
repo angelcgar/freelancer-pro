@@ -7,7 +7,7 @@ import { toast } from 'sonner';
 // import { useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { ProjectForm } from './ProjectForm';
-import { createProjectAction } from '@/app/(freelancer)/dashboard/projects/actions';
+// import { createProjectAction } from '@/app/(freelancer)/dashboard/projects/actions';
 import type { ProjectFormValues } from '@/validations/project';
 import { Button } from '@/components/ui/button';
 import {
@@ -19,6 +19,8 @@ import {
 	DialogTrigger,
 } from '@/components/ui/dialog';
 // import { createClient } from '@/lib/supabase/client';
+import { mockClientsSimple } from '@/mocks/clients';
+import type { ProjectUser } from '@/types';
 
 interface AddProjectDialogProps {
 	variant?:
@@ -28,10 +30,12 @@ interface AddProjectDialogProps {
 		| 'ghost'
 		| 'link'
 		| 'destructive';
+	onProjectCreated?: (project: ProjectUser) => void;
 }
 
 export function AddProjectDialog({
 	variant = 'default',
+	onProjectCreated,
 }: AddProjectDialogProps) {
 	const [open, setOpen] = useState(false);
 	const [isSubmitting, setIsSubmitting] = useState(false);
@@ -54,22 +58,44 @@ export function AddProjectDialog({
 	// 	},
 	// });
 
-	// Mock data para la plantilla
-	const clients: { id: string; name: string }[] = [];
+	// Mock data para la plantilla - Bug 1 Fix: Usar los clientes del mock
+	const clients = mockClientsSimple;
 
 	const handleSubmit = async (values: ProjectFormValues) => {
 		try {
 			setIsSubmitting(true);
 			const toastId = toast.loading('Creando proyecto...');
 
-			const formData = new FormData();
-			Object.entries(values).forEach(([key, value]) => {
-				if (value !== undefined && value !== null) {
-					formData.append(key, value.toString());
-				}
-			});
+			// Crear proyecto dummy con ID único
+			const newProject: ProjectUser = {
+				id: `project-${Date.now()}`,
+				user_id: 'user-1', // Mock user ID
+				client_id: values.client_id,
+				name: values.name,
+				description: values.description || '',
+				status: values.status,
+				category: values.category || '',
+				hourly_rate: values.hourly_rate || '',
+				fixed_price: values.fixed_price || '',
+				start_date: values.start_date || '',
+				end_date: values.end_date || '',
+				created_at: new Date(),
+				updated_at: new Date(),
+			};
 
-			await createProjectAction(formData);
+			// Simular llamada al servidor (comentado para la plantilla)
+			// const formData = new FormData();
+			// Object.entries(values).forEach(([key, value]) => {
+			// 	if (value !== undefined && value !== null) {
+			// 		formData.append(key, value.toString());
+			// 	}
+			// });
+			// await createProjectAction(formData);
+
+			// Callback para agregar el proyecto a la lista
+			if (onProjectCreated) {
+				onProjectCreated(newProject);
+			}
 
 			toast.success('Proyecto creado con éxito', { id: toastId });
 			setOpen(false);

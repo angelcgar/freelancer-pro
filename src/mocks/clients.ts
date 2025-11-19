@@ -1,0 +1,70 @@
+import type { ClientUser } from '@/types/clients-user.types';
+
+export const mockClients: ClientUser[] = [
+	{
+		id: 'client-1',
+		user_id: 'user-1',
+		name: 'Acme Corporation',
+		email: 'contact@acme.com',
+		phone: '+1 (555) 123-4567',
+		company: 'Acme Corp',
+		address: '123 Business St, New York, NY 10001',
+		notes: 'Cliente premium con múltiples proyectos activos',
+		created_at: new Date('2024-01-15'),
+		updated_at: '2024-11-15T10:00:00Z',
+	},
+	{
+		id: 'client-2',
+		user_id: 'user-1',
+		name: 'Tech Innovations Inc',
+		email: 'hello@techinnovations.com',
+		phone: '+1 (555) 234-5678',
+		company: 'Tech Innovations',
+		address: '456 Tech Ave, San Francisco, CA 94102',
+		notes: 'Startup enfocada en IA y machine learning',
+		created_at: new Date('2024-02-20'),
+		updated_at: '2024-11-10T14:30:00Z',
+	},
+	{
+		id: 'client-3',
+		user_id: 'user-1',
+		name: 'Creative Studio Labs',
+		email: 'projects@creativestudio.com',
+		phone: '+1 (555) 345-6789',
+		company: 'Creative Studio',
+		address: '789 Design Blvd, Los Angeles, CA 90001',
+		notes: 'Agencia de diseño con enfoque en branding',
+		created_at: new Date('2024-03-10'),
+		updated_at: '2024-11-12T09:15:00Z',
+	},
+	{
+		id: 'client-4',
+		user_id: 'user-1',
+		name: 'Global Commerce Solutions',
+		email: 'info@globalcommerce.com',
+		phone: '+1 (555) 456-7890',
+		company: 'Global Commerce',
+		address: '321 Commerce Way, Chicago, IL 60601',
+		notes: 'Plataforma de e-commerce internacional',
+		created_at: new Date('2024-04-05'),
+		updated_at: '2024-11-08T16:45:00Z',
+	},
+	{
+		id: 'client-5',
+		user_id: 'user-1',
+		name: 'Green Energy Partners',
+		email: 'contact@greenenergy.com',
+		phone: '+1 (555) 567-8901',
+		company: 'Green Energy',
+		address: '654 Eco Lane, Austin, TX 78701',
+		notes: 'Compañía de energías renovables',
+		created_at: new Date('2024-05-12'),
+		updated_at: '2024-11-14T11:20:00Z',
+	},
+];
+
+// Versión simplificada para los selectores
+export const mockClientsSimple = mockClients.map((client) => ({
+	id: client.id,
+	name: client.name,
+}));

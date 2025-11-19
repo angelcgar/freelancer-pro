@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { FolderOpen, Search } from 'lucide-react';
 
 import {
@@ -16,6 +17,7 @@ import { AddProjectDialog } from '@/components/projects/AddProjectDialog';
 
 import { ProjectsTable } from './ProjectsTable';
 import type { ProjectUser } from '@/types';
+import { mockProjects } from '@/mocks/projects';
 
 export default function ProjectsPage() {
 	// const { data: projects = [], isLoading } = useQuery<ProjectUser[]>({
@@ -23,9 +25,13 @@ export default function ProjectsPage() {
 	// 	queryFn: getProjectsAction,
 	// });
 
-	// Mock data para la plantilla
-	const projects: ProjectUser[] = [];
+	// Mock data para la plantilla - Estado para agregar nuevos proyectos
+	const [projects, setProjects] = useState<ProjectUser[]>(mockProjects);
 	const isLoading = false;
+
+	const handleProjectCreated = (newProject: ProjectUser) => {
+		setProjects((prev) => [newProject, ...prev]);
+	};
 
 	if (isLoading) return <p>Loading...</p>;
 
@@ -38,7 +44,7 @@ export default function ProjectsPage() {
 						Manage your projects, track progress, and monitor deadlines.
 					</p>
 				</div>
-				<AddProjectDialog />
+				<AddProjectDialog onProjectCreated={handleProjectCreated} />
 			</div>
 
 			{/* Search and Filters */}
@@ -66,7 +72,10 @@ export default function ProjectsPage() {
 								Create your first project to start tracking your work and
 								managing client deliverables.
 							</CardDescription>
-							<AddProjectDialog variant="outline" />
+							<AddProjectDialog
+								variant="outline"
+								onProjectCreated={handleProjectCreated}
+							/>
 						</CardContent>
 					</Card>
 				</div>
