@@ -10,13 +10,13 @@ import {
 
 export default async function Home() {
 	return (
-		<div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
+		<div className="min-h-screen bg-gradient-to-br from-background to-secondary">
 			<div className="container mx-auto px-4 py-16">
 				<div className="text-center mb-16">
-					<h1 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-6xl mb-6">
+					<h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-6xl mb-6">
 						FreelancePro
 					</h1>
-					<p className="text-xl text-slate-600 max-w-2xl mx-auto mb-8">
+					<p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
 						Comprehensive SaaS platform to help freelancers manage projects,
 						clients, contracts, invoices, and business operations efficiently.
 					</p>
@@ -41,7 +41,7 @@ export default async function Home() {
 							</CardDescription>
 						</CardHeader>
 						<CardContent>
-							<ul className="text-sm text-slate-600 space-y-1">
+							<ul className="text-sm text-muted-foreground space-y-1">
 								<li>• Project status tracking</li>
 								<li>• Time tracking</li>
 								<li>• File attachments</li>
@@ -60,7 +60,7 @@ export default async function Home() {
 							</CardDescription>
 						</CardHeader>
 						<CardContent>
-							<ul className="text-sm text-slate-600 space-y-1">
+							<ul className="text-sm text-muted-foreground space-y-1">
 								<li>• Client database</li>
 								<li>• Contract templates</li>
 								<li>• Digital signatures</li>
@@ -79,7 +79,7 @@ export default async function Home() {
 							</CardDescription>
 						</CardHeader>
 						<CardContent>
-							<ul className="text-sm text-slate-600 space-y-1">
+							<ul className="text-sm text-muted-foreground space-y-1">
 								<li>• Professional invoices</li>
 								<li>• Stripe integration</li>
 								<li>• Payment tracking</li>
