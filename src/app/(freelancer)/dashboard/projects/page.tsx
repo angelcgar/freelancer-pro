@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { FolderOpen, Search } from 'lucide-react';
 
 import {
@@ -19,6 +19,19 @@ import { ProjectsTable } from './ProjectsTable';
 import type { ProjectUser } from '@/types';
 import { mockProjects } from '@/mocks/projects';
 
+/**
+ * SISTEMA DE PERSISTENCIA SIMULADA
+ *
+ * Esta página carga proyectos desde mockProjects y luego aplica los overrides
+ * que se hayan guardado en localStorage desde la página de detalle.
+ *
+ * Cuando editas un proyecto en /dashboard/projects/[id], los cambios se guardan
+ * en localStorage con la key: `project-override-${projectId}`
+ *
+ * Esta página lee esos overrides y los aplica sobre los mocks para mostrar
+ * los cambios simulados en la tabla.
+ */
+
 export default function ProjectsPage() {
 	// const { data: projects = [], isLoading } = useQuery<ProjectUser[]>({
 	// 	queryKey: ['projects'],
@@ -28,6 +41,36 @@ export default function ProjectsPage() {
 	// Mock data para la plantilla - Estado para agregar nuevos proyectos
 	const [projects, setProjects] = useState<ProjectUser[]>(mockProjects);
 	const isLoading = false;
+
+	// Cargar overrides de localStorage al montar el componente
+	useEffect(() => {
+		const loadProjectsWithOverrides = () => {
+			const projectsWithOverrides = mockProjects.map((project) => {
+				const storageKey = `project-override-${project.id}`;
+				const savedOverride = localStorage.getItem(storageKey);
+
+				if (savedOverride) {
+					// Si hay override, usarlo
+					return JSON.parse(savedOverride) as ProjectUser;
+				}
+
+				// Si no, usar el proyecto del mock
+				return project;
+			});
+
+			setProjects(projectsWithOverrides);
+		};
+
+		loadProjectsWithOverrides();
+
+		// Escuchar cambios en localStorage (cuando se guarda en otra pestaña)
+		const handleStorageChange = () => {
+			loadProjectsWithOverrides();
+		};
+
+		window.addEventListener('storage', handleStorageChange);
+		return () => window.removeEventListener('storage', handleStorageChange);
+	}, []);
 
 	const handleProjectCreated = (newProject: ProjectUser) => {
 		setProjects((prev) => [newProject, ...prev]);
