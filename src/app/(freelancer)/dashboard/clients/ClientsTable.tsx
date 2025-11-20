@@ -1,11 +1,14 @@
 import { useState } from 'react';
-
+import Link from 'next/link';
 import {
 	ChevronLeft,
 	ChevronRight,
 	ChevronsLeft,
 	ChevronsRight,
 	Search,
+	Eye,
+	Edit,
+	Trash2,
 } from 'lucide-react';
 
 import type {
@@ -23,6 +26,18 @@ import {
 } from '@tanstack/react-table';
 
 import type { ClientUser } from '@/types/clients-user.types';
+import { deleteClient } from './clientStore';
+import { toast } from 'sonner';
+import {
+	AlertDialog,
+	AlertDialogAction,
+	AlertDialogCancel,
+	AlertDialogContent,
+	AlertDialogDescription,
+	AlertDialogFooter,
+	AlertDialogHeader,
+	AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -37,13 +52,50 @@ import {
 
 interface ClientsTableProps {
 	data: ClientUser[];
+	onClientDeleted?: (clientId: string) => void;
 }
 
-export function ClientsTable({ data }: ClientsTableProps) {
+export function ClientsTable({ data, onClientDeleted }: ClientsTableProps) {
 	const [sorting, setSorting] = useState<SortingState>([]);
 	const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 	const [rowSelection, setRowSelection] = useState({});
 	const [globalFilter, setGlobalFilter] = useState('');
+	const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+	const [clientToDelete, setClientToDelete] = useState<ClientUser | null>(null);
+
+	// Handler para confirmar eliminación
+	const handleDeleteClick = (client: ClientUser) => {
+		setClientToDelete(client);
+		setDeleteDialogOpen(true);
+	};
+
+	// Handler para ejecutar la eliminación
+	const handleConfirmDelete = () => {
+		if (!clientToDelete) return;
+
+		const success = deleteClient(clientToDelete.id);
+
+		if (success) {
+			toast.success('Cliente eliminado', {
+				description: `${clientToDelete.name} ha sido eliminado correctamente.`,
+			});
+
+			// Notificar al componente padre
+			if (onClientDeleted) {
+				onClientDeleted(clientToDelete.id);
+			}
+
+			// Emitir evento personalizado para actualizar otras vistas
+			window.dispatchEvent(new Event('clients-updated'));
+		} else {
+			toast.error('Error al eliminar', {
+				description: 'No se pudo eliminar el cliente. Inténtalo de nuevo.',
+			});
+		}
+
+		setDeleteDialogOpen(false);
+		setClientToDelete(null);
+	};
 
 	const columns: ColumnDef<ClientUser>[] = [
 		{
@@ -73,6 +125,41 @@ export function ClientsTable({ data }: ClientsTableProps) {
 					{row.getValue('phone') || '-'}
 				</div>
 			),
+		},
+		{
+			id: 'actions',
+			header: 'Acciones',
+			cell: ({ row }) => {
+				const client = row.original;
+				return (
+					<div className="flex items-center gap-2">
+						<Link
+							href={`/dashboard/clients/${client.id}`}
+							aria-label={`Ver detalles de ${client.name}`}
+						>
+							<Button variant="ghost" size="sm">
+								<Eye className="h-4 w-4" />
+							</Button>
+						</Link>
+						<Link
+							href={`/dashboard/clients/${client.id}`}
+							aria-label={`Editar ${client.name}`}
+						>
+							<Button variant="ghost" size="sm">
+								<Edit className="h-4 w-4" />
+							</Button>
+						</Link>
+						<Button
+							variant="ghost"
+							size="sm"
+							onClick={() => handleDeleteClick(client)}
+							aria-label={`Eliminar ${client.name}`}
+						>
+							<Trash2 className="h-4 w-4 text-destructive" />
+						</Button>
+					</div>
+				);
+			},
 		},
 	];
 
@@ -229,6 +316,29 @@ export function ClientsTable({ data }: ClientsTableProps) {
 					</Button>
 				</div>
 			</div>
+
+			{/* Alert Dialog para confirmar eliminación */}
+			<AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+				<AlertDialogContent>
+					<AlertDialogHeader>
+						<AlertDialogTitle>¿Estás seguro?</AlertDialogTitle>
+						<AlertDialogDescription>
+							Esta acción eliminará permanentemente a{' '}
+							<span className="font-semibold">{clientToDelete?.name}</span>.
+							Esta acción no se puede deshacer.
+						</AlertDialogDescription>
+					</AlertDialogHeader>
+					<AlertDialogFooter>
+						<AlertDialogCancel>Cancelar</AlertDialogCancel>
+						<AlertDialogAction
+							onClick={handleConfirmDelete}
+							className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+						>
+							Eliminar
+						</AlertDialogAction>
+					</AlertDialogFooter>
+				</AlertDialogContent>
+			</AlertDialog>
 		</div>
 	);
 }

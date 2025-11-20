@@ -11,8 +11,10 @@ import { Plus } from 'lucide-react';
 import { toast } from 'sonner';
 
 import { ClientForm } from '@/components/client/ClientForm';
-import { createClientAction } from '@/app/(freelancer)/dashboard/clients/actions';
+// import { createClientAction } from '@/app/(freelancer)/dashboard/clients/actions';
 import type { ClientFormValues } from '@/validations/client';
+import { createClient } from '@/app/(freelancer)/dashboard/clients/clientStore';
+import type { ClientUser } from '@/types';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -26,9 +28,13 @@ import {
 
 interface AddClientDialogProps {
 	variant?: ComponentProps<typeof Button>['variant'];
+	onClientCreated?: (client: ClientUser) => void;
 }
 
-export function AddClientDialog({ variant }: AddClientDialogProps) {
+export function AddClientDialog({
+	variant,
+	onClientCreated,
+}: AddClientDialogProps) {
 	const [open, setOpen] = useState(false);
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const router = useRouter();
@@ -47,22 +53,39 @@ export function AddClientDialog({ variant }: AddClientDialogProps) {
 	const handleSubmit = async (values: ClientFormValues) => {
 		try {
 			setIsSubmitting(true);
-			const toastId = toast.loading('Creating client...');
+			const toastId = toast.loading('Creando cliente...');
 
-			// Create form data to send to server action
-			const formData = new FormData();
-			Object.entries(values).forEach(([key, value]) => {
-				if (value) formData.append(key, value);
+			// Crear cliente usando el store simulado
+			const newClient = createClient({
+				name: values.name,
+				email: values.email || '',
+				phone: values.phone || '',
+				company: values.company || '',
+				address: values.address || '',
+				notes: values.notes || '',
 			});
 
-			await createClientAction(formData);
+			// Simular llamada al servidor (comentado para la plantilla)
+			// const formData = new FormData();
+			// Object.entries(values).forEach(([key, value]) => {
+			// 	if (value) formData.append(key, value);
+			// });
+			// await createClientAction(formData);
 
-			toast.success('Client created successfully', { id: toastId });
+			// Callback para agregar el cliente a la lista
+			if (onClientCreated) {
+				onClientCreated(newClient);
+			}
+
+			// Emitir evento para actualizar otras vistas
+			window.dispatchEvent(new Event('clients-updated'));
+
+			toast.success('Cliente creado con éxito', { id: toastId });
 			setOpen(false);
 			router.refresh();
 		} catch (error) {
 			console.error('Error creating client:', error);
-			toast.error('Something went wrong while creating the client');
+			toast.error('No se pudo crear el cliente. Inténtalo de nuevo.');
 		} finally {
 			setIsSubmitting(false);
 		}
