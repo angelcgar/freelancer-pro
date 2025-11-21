@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { use, useEffect, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -80,8 +80,11 @@ const statusLabelMap: Record<string, string> = {
 export default function ContractDetailPage({
 	params,
 }: {
-	params: { id: string };
+	params: Promise<{ id: string }>;
 }) {
+	// Unwrap params usando React.use()
+	const { id } = use(params);
+
 	const [contract, setContract] = useState<MockContract | null>(null);
 	const [isLoading, setIsLoading] = useState(true);
 	const [isSaving, setIsSaving] = useState(false);
@@ -103,7 +106,7 @@ export default function ContractDetailPage({
 
 	useEffect(() => {
 		const loadContract = () => {
-			const foundContract = getContractById(params.id);
+			const foundContract = getContractById(id);
 			if (foundContract) {
 				setContract(foundContract);
 				form.reset({
@@ -122,13 +125,13 @@ export default function ContractDetailPage({
 		};
 
 		loadContract();
-	}, [params.id, form]);
+	}, [id, form]);
 
 	const onSubmit = async (data: ContractFormValues) => {
 		setIsSaving(true);
 
 		try {
-			const updatedContract = updateContract(params.id, {
+			const updatedContract = updateContract(id, {
 				title: data.title,
 				client_id: data.client_id,
 				project_id: data.project_id || '',
