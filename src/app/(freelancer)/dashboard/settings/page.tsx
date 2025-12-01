@@ -26,7 +26,6 @@ export default function SettingsPage() {
 					<p className="text-muted-foreground">
 						Manage your account settings and preferences.
 					</p>
-					<LogoutButton />
 				</div>
 			</div>
 
