@@ -22,7 +22,9 @@ export default async function Home() {
 					</p>
 					<div className="flex gap-4 justify-center">
 						<Link href="/dashboard" className="cursor-pointer">
-							<Button size="lg">Get Started</Button>
+							<Button size="lg" className="cursor-pointer">
+								Get Started
+							</Button>
 						</Link>
 						{/* <Link href="/login">
 							<Button size="lg">login</Button>
